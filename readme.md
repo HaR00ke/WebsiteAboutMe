@@ -1,3 +1,5 @@
-# WebsiteAboutMe
+# Website About Me
 A website about me and my achievments!\
-Made with Flask Python!
+Used technology: 
+- Flask
+- Bootstrap

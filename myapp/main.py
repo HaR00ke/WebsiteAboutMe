@@ -8,4 +8,4 @@ app.config["DEBUG"] = config.DEBUG_MODE
 
 
 def run():
-    app.run()
+    app.run(host='0.0.0.0')
