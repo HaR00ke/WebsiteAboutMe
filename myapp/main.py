@@ -5,6 +5,7 @@ from flask_mail import Message, Mail
 from config import Config
 from .data.db_session import global_init
 from .blueprints.confirm_mail_api import confirm_mail_api
+from .blueprints.reset_password_api import reset_password_api
 
 app = Flask(__name__, template_folder='templates')
 app.config['SECRET_KEY'] = Config.SECRET_KEY
@@ -28,6 +29,7 @@ mail = Mail(app=app)
 def run():
     global_init('myapp/db/database.db')
     app.register_blueprint(confirm_mail_api.blueprint)
+    app.register_blueprint(reset_password_api.blueprint)
     app.run()
 
 

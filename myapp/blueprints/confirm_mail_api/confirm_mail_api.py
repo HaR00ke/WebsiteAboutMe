@@ -1,10 +1,9 @@
-from datetime import datetime
-from flask import Blueprint, request, render_template
+from flask import Blueprint, render_template
 
 from myapp.data.db_session import create_session
 from myapp.data.db_models.user import User
 from myapp.forms import SignUpForm
-from .token import confirm_token
+from ..token import confirm_token
 
 blueprint = Blueprint(
     'email_confirmation',
