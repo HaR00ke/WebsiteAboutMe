@@ -1,5 +1,5 @@
 /.idea
 /venv
 *__pycache__
-/myapp/db/database.db
+/myapp/db
 config.py

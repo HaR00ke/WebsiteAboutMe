@@ -1,5 +1,5 @@
 from flask import render_template
-from .main import app
+from .main import app, send_mail
 from .variables import States
 
 
@@ -26,16 +26,6 @@ def projects():
 @app.route('/contacts', methods=['GET'])
 def contacts():
     return render_template('contacts.html', title='My Contacts', current=States.contacts)
-
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    return render_template('login.html', title='Log In', current=States.login)
-
-
-@app.route('/signup', methods=['GET', 'POST'])
-def signup():
-    return render_template('signup.html', title='Sign Up', current=States.register)
 
 
 @app.route('/hi')

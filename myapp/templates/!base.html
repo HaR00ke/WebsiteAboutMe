@@ -14,18 +14,27 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-light navbar-expand-md navbar-fixed-top navigation-clean-button" style="background: rgb(34, 34, 34);border-radius: 20;border-top-left-radius: 20;border-top-right-radius: 20;border-bottom-right-radius: 20;border-bottom-left-radius: 20;border-style: none;padding-top: 0;padding-bottom: 10px; margin-bottom: 20px;">
+    <nav class="navbar navbar-light navbar-expand-md navbar-fixed-top navigation-clean-button" style="background: rgb(34, 34, 34);border-radius: 20;border-top-left-radius: 20;border-top-right-radius: 20;border-bottom-right-radius: 20;border-bottom-left-radius: 20;border-style: none;padding-top: 0;padding-bottom: 10px; margin-bottom: 50px;">
         <div class="container"><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1" style="margin-top: 10px"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div><a class="navbar-brand" href="/"><span> <img src="{{ url_for('static', filename='img/logo.png') }}" style="width: 100px;"> </span> </a></div>
             <div class="collapse navbar-collapse" id="navcol-1" style="color: rgb(255,255,255);">
                 <ul class="navbar-nav nav-right">
-                    <li class="nav-item"><a class="nav-link {{ 'active' if current == 'about' else ''}}" href="about">About me</a></li>
-                    <li class="nav-item"><a class="nav-link {{ 'active' if current == 'achievments' else ''}}" href="achievments">My achievments</a></li>
-                    <li class="nav-item"><a class="nav-link {{ 'active' if current == 'projects' else ''}}" href="projects">My projects</a></li>
-                    <li class="nav-item"><a class="nav-link {{ 'active' if current == 'contacts' else ''}}" href="contacts">My contacts</a></li>
-
+                    <li class="nav-item"><a class="nav-link {{ 'active' if current == 'about' else ''}}" href="{{ url_for('about') }}">About me</a></li>
+                    <li class="nav-item"><a class="nav-link {{ 'active' if current == 'achievments' else ''}}" href="{{ url_for('achievments') }}">My achievments</a></li>
+                    <li class="nav-item"><a class="nav-link {{ 'active' if current == 'projects' else ''}}" href="{{ url_for('projects') }}">My projects</a></li>
+                    <li class="nav-item"><a class="nav-link {{ 'active' if current == 'contacts' else ''}}" href="{{ url_for('contacts') }}">My contacts</a></li>
                 </ul>
-                <p class="ms-auto navbar-text actions" style="text-align: center;"><a class="login" href="login" style="color: rgba(224,217,217,0.9);">Log In</a> <a class="btn btn-light action-button" role="button" href="signup" style="color: rgba(0,0,0,0.9);background: var(--bs-gray-200);border-radius: 10px;border-style: solid;border-color: rgba(0,0,0,0.9);font-size: 16px;padding: 5px 8px;">Sign Up</a></p>
+                {% if current_user.is_authenticated %}
+                    <p class="ms-auto navbar-text actions" style="text-align: center;">
+                        <a class="login" style="color: rgba(224,217,217,0.9);">{{ current_user.nickname }}</a>
+                        <a class="btn btn-light action-button" role="button" href="{{ url_for('logout') }}" style="color: rgba(0,0,0,0.9);background: var(--bs-gray-200);border-radius: 10px;border-style: solid;border-color: rgba(0,0,0,0.9);font-size: 16px;padding: 5px 8px;">Log Out</a>
+                    </p>
+                {% else %}
+                    <p class="ms-auto navbar-text actions" style="text-align: center;">
+                    <a class="login" href="{{ url_for('login') }}" style="color: rgba(224,217,217,0.9);">Log In</a>
+                    <a class="btn btn-light action-button" role="button" href="{{ url_for('signup') }}" style="color: rgba(0,0,0,0.9);background: var(--bs-gray-200);border-radius: 10px;border-style: solid;border-color: rgba(0,0,0,0.9);font-size: 16px;padding: 5px 8px;">Sign Up</a>
+                    </p>
+                {% endif %}
             </div>
         </div>
     </nav>
