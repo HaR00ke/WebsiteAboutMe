@@ -2,11 +2,11 @@
 
 {% block content %}
 <div class="row d-flex d-xl-flex justify-content-center justify-content-xl-center">
-<div class="col-sm-12 col-lg-10 col-xl-9 col-xxl-7 bg-white shadow-lg" style="border-radius: 5px;">
+<div class="col-sm-12 col-lg-10 col-xl-9 col-xxl-7 shadow-lg" style="border-radius: 5px; background-color: rgb(34, 34, 34);">
 <div class="p-5">
 
 <div class="text-center">
-    <h4 class="text-dark mb-4">Log In</h4>
+    <h4 class="text-white mb-4">Log In</h4>
 </div>
 
 <form action="" method="post">
@@ -28,8 +28,8 @@
         {% endfor %}
     </div>
 
-    <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-    <p>{{ form.submit(type="submit", class="btn btn-primary d-block btn-user w-100") }}</p>
+    <p class="text-white">{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+    <p>{{ form.submit(type="submit", class="btn btn-outline-light w-100") }}</p>
     {% if message %}
         <p class="alert alert-danger" role="alert">
             {{message}}
@@ -37,7 +37,7 @@
     {% endif %}
 </form>
 
-<div class="text-center"><a class="small" href="forgot_password">Forgot Password?</a></div>
+<div class="text-center"><a class="small" href="{{ url_for('forgot_password') }}">Forgot Password?</a></div>
 <div class="text-center"><a class="small" href="{{ url_for('signup') }}">Have no account? Create It!</a></div>
 
 </div>
