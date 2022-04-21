@@ -23,3 +23,6 @@ class User(SqlAlchemyBase, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.hashed_password, password)
+
+    def set_modified_date(self):
+        self.modified_date = datetime.datetime.now()

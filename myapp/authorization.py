@@ -6,6 +6,7 @@ from flask_login import login_user, logout_user
 from .main import app, login_manager, send_mail
 from .data import db_session
 from .data.db_models.user import User
+from .data.db_models.pre_registered_user import PreRegisteredUser
 from .forms import PreSignUpForm, LoginForm, PreForgotPasswordForm
 from .blueprints.token import generate_confirmation_token
 
@@ -45,8 +46,17 @@ def signup():
             return render_template('pre_signup.html', title='Sign Up', form=form,
                                    message="User with this email already exists!")
 
-        #TODO: Use url_for
-        #TODO: Limit of registration (one time in 5 minutes)
+        aboba = db_sess.query(PreRegisteredUser).filter(PreRegisteredUser.email == form.email.data).first()
+        if aboba:
+            if datetime.datetime.now() - aboba.created_date < datetime.timedelta(hours=1):
+                return render_template('pre_signup.html', title='Sign Up', form=form,
+                                       message="User with this email already tried to register!")
+
+        user = PreRegisteredUser()
+        user.email = form.email.data
+        db_sess.add(user)
+        db_sess.commit()
+
         url = f'http://{request.host}/confirm_email/{generate_confirmation_token(form.email.data)}'
 
         confirmation_text = f'''

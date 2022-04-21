@@ -1,3 +1,5 @@
+import datetime
+
 from flask import Blueprint, render_template
 
 from myapp.data.db_session import create_session
@@ -24,7 +26,12 @@ def reset_password(token):
                                    form=form, message="Passwords don't match!")
         db_sess = create_session()
         user = db_sess.query(User).filter(User.email == email).first()
+        if datetime.datetime.now() - user.modified_date < datetime.timedelta(hours=1):
+            return render_template('forgot_password.html', title='Reset Password',
+                                   form=form, message="You already tried to recover your password in the last hour.")
+
         user.set_password(form.password.data)
+        user.set_modified_date()
         db_sess.commit()
         return render_template('page_with_message.html', title='Reset Password',
                                message='Password has been successfully reset!')
