@@ -1,5 +1,20 @@
 {% extends "!base.html" %}
 
 {% block content %}
-MY CONTACTS
+
+{% if list_|length > 0%}
+
+  {% for contact in list_%}
+
+  <div class="card" style="width: 25rem; background-color: rgb(34, 34, 34); margin: 1rem;">
+    <div class="card-body" style="display:flex; flex-direction:column;">
+      <a role="button" class="btn btn-outline-light w-100" href="{{ contact[1] }}"> {{ contact[0] }} </a>
+    </div>
+  </div> <hr>
+  {% endfor %}
+
+{% else %}
+<div class="text-light"> Oh no, I have no contacts!</div>
+{% endif %}
+
 {% endblock %}

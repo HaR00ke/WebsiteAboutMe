@@ -45,6 +45,8 @@ def signup():
             return render_template('pre_signup.html', title='Sign Up', form=form,
                                    message="User with this email already exists!")
 
+        #TODO: Use url_for
+        #TODO: Limit of registration (one time in 5 minutes)
         url = f'http://{request.host}/confirm_email/{generate_confirmation_token(form.email.data)}'
 
         confirmation_text = f'''

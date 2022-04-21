@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, url_for
 from .main import app, send_mail
 from .variables import States
 
@@ -15,7 +15,13 @@ def about():
 
 @app.route('/achievments', methods=['GET'])
 def achievments():
-    return render_template('achievments.html', title='My Achievments', current=States.achievments)
+    # [img, title, description, url(optional)]
+    list_ = [[url_for('static', filename='img/logo.png'), '1st', 'amogus amogus amogus amogus amogusamogus ', "https://google.com"],
+             [url_for('static', filename='img/logo.png'), '1st', 'amogus amogus22'],
+             [url_for('static', filename='img/logo.png'), '1st', 'amogus amogus2233'],
+             [url_for('static', filename='img/logo.png'), '1st', 'amogus amogus2212312']]
+    #TODO: Если очень много текста укоротить... Контролировать размер файла. Недостающие места добавлять пустыми местами
+    return render_template('achievments.html', title='My Achievments', current=States.achievments, list_=list_)
 
 
 @app.route('/projects', methods=['GET'])
@@ -25,7 +31,10 @@ def projects():
 
 @app.route('/contacts', methods=['GET'])
 def contacts():
-    return render_template('contacts.html', title='My Contacts', current=States.contacts)
+    # [['button text', 'url']]
+    list_ = [['instagram', 'https://instagram.com/haroke4'],
+             ['github', 'https://github.com/HaR00ke']]
+    return render_template('contacts.html', title='My Contacts', current=States.contacts, list_=list_)
 
 
 @app.route('/hi')

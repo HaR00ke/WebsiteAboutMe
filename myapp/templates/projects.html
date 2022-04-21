@@ -1,5 +1,31 @@
 {% extends "!base.html" %}
 
 {% block content %}
-MY PROJECTS
+
+{% if list_|length > 0%}
+
+  {% for achievment in list_%}
+
+  <div class="card" style="width: 18rem; background-color: rgb(34, 34, 34); margin: 1rem;">
+    <img class="card-img-top" src="{{ achievment[0] }}" alt="Card image cap">
+    <hr>
+    <div class="card-body" style="display:flex; flex-direction:column;">
+      <h5 class="card-title text-white mb-3">{{ achievment[1] }}</h5>
+      <p class="card-text text-white mb-2">{{ achievment[2] }}</p>
+
+      {% if achievment|length > 3%}
+      <a role="button" class="btn btn-outline-light w-100" href="{{ achievment[3] }}"> More </a>
+
+      {% else %}
+      <a role="button" class="btn btn-outline-light disabled w-100" style="margin-top: auto" href="{{ achievment[3] }}"> More </a>
+
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+
+{% else %}
+<div class="text-light"> Oh no, I have no projects!</div>
+{% endif %}
+
 {% endblock %}
