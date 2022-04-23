@@ -1,8 +1,12 @@
 {% extends "!base.html" %}
 
 {% block content %}
-{% if message %}
+{% if message and not error %}
     <p class="alert alert-primary" role="alert">
+        {{message}}
+    </p>
+{% elif message and error %}
+    <p class="alert alert-danger" role="alert">
         {{message}}
     </p>
 {% endif %}

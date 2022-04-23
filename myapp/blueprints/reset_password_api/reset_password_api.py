@@ -30,13 +30,13 @@ def reset_password(token):
 
         db_sess = create_session()
         user = db_sess.query(User).filter(User.email == email).first()
-        if datetime.datetime.now() - user.modified_date < datetime.timedelta(
-                hours=1) and user.modified_date != user.created_date:
+        if (datetime.datetime.now() - user.password_reseted_date).total_seconds() < 3600 and\
+                user.password_reseted_date != user.created_date:
             return render_template('forgot_password.html', title='Reset Password',
-                                   form=form, message="You already tried to recover your password in the last hour.")
+                                   form=form, message="Your account passowrd have already changed in the last hour. Try after a while.")
 
         user.set_password(form.password.data)
-        user.set_modified_date()
+        user.set_password_reseted_date()
         db_sess.commit()
         return render_template('page_with_message.html', title='Reset Password',
                                message='Password has been successfully reset!')

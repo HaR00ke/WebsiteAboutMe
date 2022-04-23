@@ -43,3 +43,10 @@ class AddAchievmentProjectForm(FlaskForm):
     url = StringField('url')
     img = FileField('image')
     submit = SubmitField('Add')
+
+
+class EditProfileForm(FlaskForm):
+    email = EmailField('Email Address', validators=[DataRequired()])
+    nickname = StringField('Nickname', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Change')

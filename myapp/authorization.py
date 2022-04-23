@@ -25,7 +25,7 @@ def login():
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             return render_template('page_with_message.html', title='Logged In', message=f'Hello, {user.nickname}!')
-        return render_template('login.html', message="Invalid login or password", form=form)
+        return render_template('login.html', title='Log In', message="Invalid login or password", form=form)
     return render_template('login.html', title='Log In', form=form)
 
 
@@ -42,18 +42,17 @@ def signup():
         db_sess = db_session.create_session()
         aboba = db_sess.query(PreRegisteredUser).filter(PreRegisteredUser.email == form.email.data).first()
         if aboba:
+            print('1')
             if datetime.datetime.now() - aboba.created_date < datetime.timedelta(hours=1):
                 return render_template('pre_signup.html', title='Sign Up', form=form,
                                        message="You already tried to register in the last hour! Try after a while!")
+            else:
+                aboba.set_created_date()
         else:
-            aboba = PreRegisteredUser()
-
-        msg = 'An email with a link to further registration has been sent to your email!!'
-        if db_sess.query(User).filter(User.email == form.email.data).first():  # If user with this email already exists
-            return render_template('page_with_message.html', title='Sign Up', message=msg)
-
-        aboba.email = form.email.data
-        aboba.created_date = datetime.datetime.now()
+            print('2')
+            new_user = PreRegisteredUser()
+            new_user.email = form.email.data
+            db_sess.add(new_user)
         db_sess.commit()
 
         url = f'http://{request.host}/confirm_email/{generate_confirmation_token(form.email.data)}'
@@ -64,7 +63,8 @@ def signup():
         '''
 
         send_mail(form.email.data, 'Email confirmation', confirmation_text)
-        return render_template('page_with_message.html', title='Sign Up', message=msg)
+        return render_template('page_with_message.html', title='Sign Up',
+                               message='An email with a link to further registration has been sent to your email!!')
     return render_template('pre_signup.html', title='Sign Up', form=form)
 
 
@@ -75,12 +75,12 @@ def forgot_password():
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.email == form.email.data).first()
         if user:
-            if ((datetime.datetime.now() - user.password_requested_time).total_seconds() < 3600
-                    and user.password_requested_time != user.created_date):
+            if ((datetime.datetime.now() - user.password_requested_date).total_seconds() < 3600
+                    and user.password_requested_date != user.created_date):
                 message = 'You have already tried to recover your password in the last hour, try again after a while.'
                 return render_template('pre_forgot_password.html', title='Reset Password', message=message, form=form)
 
-            user.password_requested_time = datetime.datetime.now()
+            user.set_password_requested_date()
             db_sess.commit()
             url = f'http://{request.host}/reset_password/{generate_confirmation_token(form.email.data)}'
             mail_text = f'''

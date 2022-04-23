@@ -18,10 +18,11 @@ class User(SqlAlchemyBase, UserMixin):
     nickname = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     email = sqlalchemy.Column(sqlalchemy.String, index=True, unique=True, nullable=False)
     admin = sqlalchemy.Column(sqlalchemy.Boolean, nullable=False, default=False)
-    hashed_password = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     modified_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
     created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
-    password_requested_time = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
+    password_requested_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
+    password_reseted_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
+    hashed_password = sqlalchemy.Column(sqlalchemy.String, nullable=False)
 
     def set_password(self, password):
         self.hashed_password = generate_password_hash(password)
@@ -32,6 +33,12 @@ class User(SqlAlchemyBase, UserMixin):
     def set_modified_date(self):
         self.modified_date = datetime.datetime.now()
 
+    def set_password_reseted_date(self):
+        self.password_reseted_date = datetime.datetime.now()
+
+    def set_password_requested_date(self):
+        self.password_requested_date = datetime.datetime.now()
+
 
 class PreRegisteredUser(SqlAlchemyBase, UserMixin):
     __tablename__ = 'pre_registered_users'
@@ -39,6 +46,9 @@ class PreRegisteredUser(SqlAlchemyBase, UserMixin):
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     email = sqlalchemy.Column(sqlalchemy.String, index=True, unique=True, nullable=False)
     created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
+
+    def set_created_date(self):
+        self.created_date = datetime.datetime.now()
 
 
 class Achievment(SqlAlchemyBase):

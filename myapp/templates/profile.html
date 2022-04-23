@@ -1,0 +1,50 @@
+{% extends "!base.html" %}
+
+{% block content %}
+
+<div class="row d-flex d-xl-flex justify-content-center justify-content-xl-center">
+<div class="col-sm-12 col-lg-10 col-xl-9 col-xxl-7 shadow-lg" style="border-radius: 5px; background-color: rgb(34, 34, 34); margin-top: 30px;">
+<div class="p-5">
+<div class="text-center">
+<h4 class="text-white mb-4"> Hello {{ current_user.nickname }}!</h4>
+</div>
+
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        {{ form.nickname(class="form-control", placeholder=form.nickname.label.text) }}
+            {% for error in form.nickname.errors %}
+                <p class="alert alert-danger" role="alert">
+                    {{ error }}
+                </p>
+            {% endfor %}
+    </div>
+    <div class="mb-3">
+        {{ form.email(class="form-control", type="email", placeholder=form.email.label.text) }}
+        {% for error in form.email.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </div>
+    <div class="mb-3">
+        {{ form.password(class="form-control", type="password", placeholder=form.password.label.text) }}
+        {% for error in form.password.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+
+    </div>
+    <p>{{ form.submit(type="submit", class="btn btn-outline-light w-100") }}</p>
+    {% if message %}
+    <p class="alert alert-danger" role="alert">
+        {{message}}
+    </p>
+    {% endif %}
+</form>
+
+<div class="text-center"><a class="small" href="{{ url_for('forgot_password') }}">Wanna change password?</a></div>
+
+</div></div></div>
+{% endblock %}

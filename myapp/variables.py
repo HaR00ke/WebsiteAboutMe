@@ -5,5 +5,6 @@ class States:
     projects = 'projects'
     contacts = 'contacts'
     comments = 'comments'
+    profile = 'profile'
     login = 'login'
     register = 'register'

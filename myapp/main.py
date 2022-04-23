@@ -3,7 +3,7 @@ from flask_login import LoginManager
 from flask_mail import Message, Mail
 
 from config import Config
-from .data.db_session import global_init
+import logging
 from .blueprints.confirm_mail_api import confirm_mail_api
 from .blueprints.reset_password_api import reset_password_api
 

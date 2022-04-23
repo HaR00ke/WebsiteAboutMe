@@ -16,18 +16,12 @@ class AdminModelView(ModelView):
             return current_user.admin
         return False
 
-    def inaccessible_callback(self, name, **kwargs):
-        return redirect(url_for('about'))
-
 
 class MyAdminIndexView(AdminIndexView):
     def is_accessible(self):
         if current_user.is_authenticated:
             return current_user.admin
         return False
-
-    def inaccessible_callback(self, name, **kwargs):
-        return redirect(url_for('about'))
 
 
 class ProjectAchievmentView(BaseView):
