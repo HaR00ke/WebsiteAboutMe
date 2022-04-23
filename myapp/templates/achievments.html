@@ -7,17 +7,16 @@
   {% for achievment in list_%}
 
   <div class="card" style="width: 18rem; background-color: rgb(34, 34, 34); margin: 1rem;">
-    <img class="card-img-top" src="{{ achievment[0] }}" alt="Card image cap">
-    <hr>
-    <div class="card-body" style="display:flex; flex-direction:column;">
-      <h5 class="card-title text-white mb-3">{{ achievment[1] }}</h5>
-      <p class="card-text text-white mb-2">{{ achievment[2] }}</p>
+    <img class="card-img-top" src="{{ achievment['img'] if 'img' in achievment else url_for('static', filename='img/logo.png') }}" alt="Card image cap">
+    <div class="card-body" >
+      <h5 class="card-title text-white mb-3">{{ achievment['title'] }}</h5>
+      <p class="card-text text-white mb-2">{{ achievment['description'] }}</p>
 
-      {% if achievment|length > 3%}
-      <a role="button" class="btn btn-outline-light w-100" href="{{ achievment[3] }}"> More </a>
+      {% if 'url' in achievment %}
+      <a role="button" class="btn btn-outline-light w-100" href="{{ achievment['url'] }}"> More </a>
 
       {% else %}
-      <a role="button" class="btn btn-outline-light disabled w-100" style="margin-top: auto" href="{{ achievment[3] }}"> More </a>
+      <a role="button" class="btn btn-outline-light disabled w-100" > More </a>
 
       {% endif %}
     </div>

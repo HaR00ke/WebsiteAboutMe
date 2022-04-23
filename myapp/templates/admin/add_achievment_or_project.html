@@ -1,0 +1,31 @@
+{% extends "admin/master.html" %}
+
+{% block body %}
+
+
+<div>
+     <form action="" method="post" enctype="multipart/form-data">
+        <div>
+            {{ form.csrf_token }}
+        </div>
+
+        {% for field in form if field.name != 'csrf_token' %}
+
+            <div class="form-item" style="margin: 1rem;">
+                {% if field.name != 'img' %}
+
+                {{ field.label() if field.name != 'submit'}}
+                {{ field() }}
+                {% for error in field.errors %}
+                    <div class="error">{{ error }}</div>
+                {% endfor %}
+
+                {% else %}
+                {{ field }}
+                {% endif %}
+            </div>
+
+        {% endfor %}
+    </form>
+</div>
+{% endblock %}

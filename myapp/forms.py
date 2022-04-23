@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, EmailField, BooleanField
+from flask_wtf.file import FileField
+from wtforms import StringField, PasswordField, SubmitField, EmailField, BooleanField, RadioField
 from wtforms.validators import DataRequired
 
 
@@ -33,3 +34,12 @@ class ForgotPasswordForm(FlaskForm):
     password = PasswordField('New Password', validators=[DataRequired()])
     repeat_password = PasswordField('Repeat New Password', validators=[DataRequired()])
     submit = SubmitField('Reset password')
+
+
+class AddAchievmentProjectForm(FlaskForm):
+    type_ = RadioField('Type:', choices=['Achievment', 'Project'], default='Achievment', validators=[DataRequired()])
+    title = StringField('title', validators=[DataRequired()])
+    description = StringField('description', validators=[DataRequired()])
+    url = StringField('url')
+    img = FileField('image')
+    submit = SubmitField('Add')

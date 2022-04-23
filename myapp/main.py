@@ -27,7 +27,6 @@ mail = Mail(app=app)
 
 
 def run():
-    global_init('myapp/db/database.db')
     app.register_blueprint(confirm_mail_api.blueprint)
     app.register_blueprint(reset_password_api.blueprint)
     app.run()

@@ -1,6 +1,9 @@
 from flask import render_template, url_for
-from .main import app, send_mail
+
+from .main import app
 from .variables import States
+from .data.db_models import Project, Achievment, Contact
+from .data import db_session
 
 
 @app.route('/', methods=['GET'])
@@ -15,28 +18,37 @@ def about():
 
 @app.route('/achievments', methods=['GET'])
 def achievments():
-    # [img, title, description, url(optional)]
-    list_ = [[url_for('static', filename='img/logo.png'), '1st', 'amogus amogus amogus amogus amogusamogus ', "https://google.com"],
-             [url_for('static', filename='img/logo.png'), '1st', 'amogus amogus22'],
-             [url_for('static', filename='img/logo.png'), '1st', 'amogus amogus2233'],
-             [url_for('static', filename='img/logo.png'), '1st', 'amogus amogus2212312']]
-    #TODO: Если очень много текста укоротить... Контролировать размер файла. Недостающие места добавлять пустыми местами
+    db_sess = db_session.create_session()
+    list_ = [i.get_dict() for i in db_sess.query(Achievment).all()]
     return render_template('achievments.html', title='My Achievments', current=States.achievments, list_=list_)
 
 
 @app.route('/projects', methods=['GET'])
 def projects():
-    return render_template('projects.html', title='My Projects', current=States.projects)
+    db_sess = db_session.create_session()
+    list_of_projects = [i.get_dict() for i in db_sess.query(Project).all()]
+    return render_template('projects.html', title='My Projects', current=States.projects, list_=list_of_projects)
 
 
 @app.route('/contacts', methods=['GET'])
 def contacts():
-    # [['button text', 'url']]
-    list_ = [['instagram', 'https://instagram.com/haroke4'],
-             ['github', 'https://github.com/HaR00ke']]
+    db_sess = db_session.create_session()
+    list_ = [i.get_dict() for i in db_sess.query(Contact).all()]
     return render_template('contacts.html', title='My Contacts', current=States.contacts, list_=list_)
+
+
+@app.route('/comments')
+def comments():
+    return render_template('comments.html', title='Comments', current=States.comments)
 
 
 @app.route('/hi')
 def hello():
+    db_sess = db_session.create_session()
+    p = Project()
+    p.title = 'Amogus'
+    p.description = 'Amogus1123'
+    p.url = 'https://youtube.com'
+    db_sess.add(p)
+    db_sess.commit()
     return "hello"
