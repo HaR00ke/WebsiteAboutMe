@@ -29,7 +29,7 @@ mail = Mail(app=app)
 def run():
     app.register_blueprint(confirm_mail_api.blueprint)
     app.register_blueprint(reset_password_api.blueprint)
-    app.run()
+    app.run(host='0.0.0.0')
 
 
 def send_mail(to, subject, template):

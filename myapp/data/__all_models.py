@@ -1,1 +1,1 @@
-from .db_models import User, PreRegisteredUser, Achievment, Project # noqa
+from .db_models import User, PreRegisteredUser, Achievment, Project, Contact, Comment# noqa

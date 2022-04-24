@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField
 from wtforms import StringField, PasswordField, SubmitField, EmailField, BooleanField, RadioField
 from wtforms.validators import DataRequired
+from wtforms.widgets import TextArea
 
 
 class PreSignUpForm(FlaskForm):
@@ -50,3 +51,8 @@ class EditProfileForm(FlaskForm):
     nickname = StringField('Nickname', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Change')
+
+
+class CommentForm(FlaskForm):
+    text = StringField('Text', widget=TextArea(), validators=[DataRequired()])
+    submit = SubmitField('Submit')

@@ -3,3 +3,8 @@
 div.text-bold{
     font-family: 'Montserrat Alternates', sans-serif;
 }
+div.little-card {
+    border-radius: 5px;
+    background-color: rgb(34, 34, 34);
+    margin-top: 30px;
+}

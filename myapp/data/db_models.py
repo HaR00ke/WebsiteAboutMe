@@ -2,13 +2,14 @@ import datetime
 import sqlalchemy
 from flask import url_for
 from flask_login import UserMixin
+from sqlalchemy import orm
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from .db_session import SqlAlchemyBase  # noqa
 
 
 def get_all_models():
-    return [User, PreRegisteredUser, Achievment, Project, Contact]
+    return [User, PreRegisteredUser, Achievment, Project, Contact, Comment]
 
 
 class User(SqlAlchemyBase, UserMixin):
@@ -18,6 +19,8 @@ class User(SqlAlchemyBase, UserMixin):
     nickname = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     email = sqlalchemy.Column(sqlalchemy.String, index=True, unique=True, nullable=False)
     admin = sqlalchemy.Column(sqlalchemy.Boolean, nullable=False, default=False)
+    can_comment = sqlalchemy.Column(sqlalchemy.Boolean, nullable=False, default=True)
+    comments = orm.relation('Comment', back_populates='author')
     modified_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
     created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
     password_requested_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
@@ -100,5 +103,15 @@ class Contact(SqlAlchemyBase):
     def get_dict(self):
         return {'text': self.text, 'url': self.url}
 
-# class Comment(SqlAlchemyBase):
-#     pass
+
+class Comment(SqlAlchemyBase):
+    __tablename__ = 'comments'
+
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
+    text = sqlalchemy.Column(sqlalchemy.String, nullable=False)
+    author_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('users.id'))
+    author = orm.relation('User')
+    created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
+
+    def get_dict(self):
+        return {'text': self.text, 'author': self.author.nickname}

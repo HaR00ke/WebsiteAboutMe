@@ -1,5 +1,55 @@
 {% extends '!base.html' %}
 
 {% block content %}
-<div class="text-light"> Comments </div>
+
+<div class="row d-flex d-xl-flex justify-content-center justify-content-xl-center">
+    <div class="col-sm-12 col-lg-10 col-xl-9 col-xxl-7 little-card">
+        <form class="form-inline" method="post" style="margin: 1rem;" novalidate>
+            {{ form.text(class="form-control", id="textAreaExample", rows="5", placeholder="Min symbols: 10 \nMax symbols: 500") }}
+            {% for error in form.text.errors %}
+                <br>
+                <p class="alert alert-danger" role="alert">
+                    {{ error }}
+                </p>
+            {% endfor %}
+
+            <br>
+
+            {% if current_user.is_authenticated %}
+                <p>{{ form.submit(type="submit", class="btn btn-outline-light w-100") }}</p>
+            {% else %}
+                <span class="d-inline-block w-100" tabindex="0" data-bs-toggle="tooltip" title="Login to comment">
+                    {{ form.submit(type="submit", class="btn btn-outline-light w-100 disabled", data_toggle="tooltip") }}
+                </span>
+            {% endif %}
+
+            {% if message %}
+            <p class="alert alert-danger" role="alert">
+                {{message}}
+            </p>
+            {% endif %}
+        </form>
+    </div>
+
+    {% if list_|length > 0%}
+
+    {% for comment in list_ %}
+    <div class="col-sm-12 col-lg-10 col-xl-9 col-xxl-7 little-card">
+        <div class="p-3 text-light">
+            <h2> {{ comment['author'] }} </h2>
+            <hr>
+            {{ comment['text'] }}
+        </div>
+    </div>
+    {% endfor %}
+
+    {% else %}
+    <div class="col-sm-12 col-lg-10 col-xl-9 col-xxl-7 little-card">
+        <div class="p-3 text-light">
+            Oops... There is no comments!
+        </div>
+    </div>
+    {% endif %}
+</div>
+
 {% endblock %}

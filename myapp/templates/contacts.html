@@ -4,14 +4,17 @@
 
 {% if list_|length > 0%}
 
+  <div class="row d-flex d-xl-flex justify-content-center justify-content-xl-center">
   {% for contact in list_%}
-
-  <div class="card" style="width: 25rem; background-color: rgb(34, 34, 34); margin: 1rem;">
-    <div class="card-body" style="display:flex; flex-direction:column;">
-      <a role="button" class="btn btn-outline-light w-100" href="{{ contact['url'] }}"> {{ contact['text'] }} </a>
-    </div>
-  </div>
+      <div class="col-sm-12 col-lg-10 col-xl-9 col-xxl-7 little-card">
+          <div class="p-3 text-light">
+              <a role="button" class="btn btn-outline-light w-100" href="{{ contact['url'] }}">
+                {{ contact['text'] }}
+              </a>
+          </div>
+      </div>
   {% endfor %}
+  </div>
 
 {% else %}
 <div class="text-light"> Oh no, I have no contacts!</div>
