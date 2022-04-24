@@ -42,14 +42,12 @@ def signup():
         db_sess = db_session.create_session()
         aboba = db_sess.query(PreRegisteredUser).filter(PreRegisteredUser.email == form.email.data).first()
         if aboba:
-            print('1')
             if datetime.datetime.now() - aboba.created_date < datetime.timedelta(hours=1):
                 return render_template('pre_signup.html', title='Sign Up', form=form,
                                        message="You already tried to register in the last hour! Try after a while!")
             else:
                 aboba.set_created_date()
         else:
-            print('2')
             new_user = PreRegisteredUser()
             new_user.email = form.email.data
             db_sess.add(new_user)

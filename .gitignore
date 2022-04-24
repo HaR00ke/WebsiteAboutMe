@@ -3,3 +3,4 @@
 *__pycache__
 /myapp/db
 config.py
+logs.log
